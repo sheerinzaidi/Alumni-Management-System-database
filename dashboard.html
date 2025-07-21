@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Management Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .nav-link {
+            color: white !important;
+            transition: all 0.3s;
+        }
+        .nav-link:hover {
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <div class="text-center mb-4">
+                        <h4 class="text-white">Alumni DMS</h4>
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#dashboard">
+                                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#alumni">
+                                <i class="fas fa-users me-2"></i>Alumni
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#events">
+                                <i class="fas fa-calendar-alt me-2"></i>Events
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#donations">
+                                <i class="fas fa-hand-holding-heart me-2"></i>Donations
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#feedback">
+                                <i class="fas fa-comments me-2"></i>Feedback
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#jobs">
+                                <i class="fas fa-briefcase me-2"></i>Job Postings
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#reports">
+                                <i class="fas fa-chart-bar me-2"></i>Reports
+                            </a>
+                        </li>
+                    </ul>
+                    <hr class="text-white">
+                    <div class="dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-2"></i>Profile
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Dashboard</h1>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="row mb-4">
+                    <div class="col-md-3 mb-3">
+                        <div class="card stat-card">
+                            <div class="card-body text-center">
+                                <i class="fas fa-users fa-2x mb-2"></i>
+                                <h3 id="total-alumni">0</h3>
+                                <p>Total Alumni</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card stat-card">
+                            <div class="card-body text-center">
+                                <i class="fas fa-calendar-alt fa-2x mb-2"></i>
+                                <h3 id="total-events">0</h3>
+                                <p>Total Events</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card stat-card">
+                            <div class="card-body text-center">
+                                <i class="fas fa-hand-holding-heart fa-2x mb-2"></i>
+                                <h3 id="total-donations">$0</h3>
+                                <p>Total Donations</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card stat-card">
+                            <div class="card-body text-center">
+                                <i class="fas fa-briefcase fa-2x mb-2"></i>
+                                <h3 id="total-jobs">0</h3>
+                                <p>Job Postings</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Sections -->
+                <div id="dashboard" class="content-section">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Recent Alumni</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="recent-alumni"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Upcoming Events</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="upcoming-events"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="alumni" class="content-section" style="display: none;">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <h5>Alumni Management</h5>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAlumniModal">
+                                <i class="fas fa-plus"></i> Add Alumni
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="alumni-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Graduation Year</th>
+                                            <th>Location</th>
+                                            <th>Employment</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="events" class="content-section" style="display: none;">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <h5>Events Management</h5>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEventModal">
+                                <i class="fas fa-plus"></i> Add Event
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="events-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Event Name</th>
+                                            <th>Date</th>
+                                            <th>Venue</th>
+                                            <th>Registrations</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="donations" class="content-section" style="display: none;">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <h5>Donations Management</h5>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDonationModal">
+                                <i class="fas fa-plus"></i> Add Donation
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="donations-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Donor</th>
+                                            <th>Amount</th>
+                                            <th>Purpose</th>
+                                            <th>Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="feedback" class="content-section" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Feedback</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="feedback-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Alumni</th>
+                                            <th>Message</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="jobs" class="content-section" style="display: none;">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <h5>Job Postings</h5>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addJobModal">
+                                <i class="fas fa-plus"></i> Add Job
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div id="jobs-content"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="reports" class="content-section" style="display: none;">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-users fa-3x mb-3"></i>
+                                    <h5>Alumni Report</h5>
+                                    <button class="btn btn-outline-primary" onclick="generateReport('alumni')">Generate</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-calendar-alt fa-3x mb-3"></i>
+                                    <h5>Events Report</h5>
+                                    <button class="btn btn-outline-primary" onclick="generateReport('events')">Generate</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-hand-holding-heart fa-3x mb-3"></i>
+                                    <h5>Donations Report</h5>
+                                    <button class="btn btn-outline-primary" onclick="generateReport('donations')">Generate</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Add Alumni Modal -->
+    <div class="modal fade" id="addAlumniModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Alumni</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addAlumniForm">
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" name="full_name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Graduation Year</label>
+                            <input type="number" class="form-control" name="graduation_year" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Contact Info</label>
+                            <input type="text" class="form-control" name="contact_info">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Current Location</label>
+                            <input type="text" class="form-control" name="current_location">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Current Employment</label>
+                            <input type="text" class="form-control" name="current_employment">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="addAlumni()">Add Alumni</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Event Modal -->
+    <div class="modal fade" id="addEventModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Event</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addEventForm">
+                        <div class="mb-3">
+                            <label class="form-label">Event Name</label>
+                            <input type="text" class="form-control" name="event_name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Event Date</label>
+                            <input type="date" class="form-control" name="event_date" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Venue</label>
+                            <input type="text" class="form-control" name="venue" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="addEvent()">Add Event</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Job Modal -->
+    <div class="modal fade" id="addJobModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Job Posting</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addJobForm">
+                        <div class="mb-3">
+                            <label class="form-label">Job Title</label>
+                            <input type="text" class="form-control" name="job_title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" name="description" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Posting Date</label>
+                            <input type="date" class="form-control" name="posting_date">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Application Deadline</label>
+                            <input type="date" class="form-control" name="application_deadline">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="addJob()">Add Job</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Donation Modal -->
+    <div class="modal fade" id="addDonationModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Donation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addDonationForm">
+                        <div class="mb-3">
+                            <label class="form-label">Alumni</label>
+                            <select class="form-control" name="alumni_id" id="alumni-select" required>
+                                <option value="">Select Alumni</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Amount ($)</label>
+                            <input type="number" class="form-control" name="amount" step="0.01" min="0" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Purpose</label>
+                            <select class="form-control" name="purpose">
+                                <option value="">Select Purpose</option>
+                                <option value="Scholarship Fund">Scholarship Fund</option>
+                                <option value="Building Development">Building Development</option>
+                                <option value="Research Support">Research Support</option>
+                                <option value="Student Activities">Student Activities</option>
+                                <option value="General Fund">General Fund</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="addDonation()">Add Donation</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (this.getAttribute('href').startsWith('#')) {
+                    e.preventDefault();
+                    const target = this.getAttribute('href').substring(1);
+                    showSection(target);
+                    
+                    // Update active nav
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
+            
+            // Load section data
+            switch(sectionId) {
+                case 'alumni':
+                    loadAlumni();
+                    break;
+                case 'events':
+                    loadEvents();
+                    break;
+                case 'donations':
+                    loadDonations();
+                    break;
+                case 'feedback':
+                    loadFeedback();
+                    break;
+                case 'jobs':
+                    loadJobs();
+                    break;
+            }
+        }
+
+        // Load dashboard stats
+        function loadDashboardStats() {
+            fetch('/api/stats')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('total-alumni').textContent = data.alumni_count;
+                    document.getElementById('total-events').textContent = data.events_count;
+                    document.getElementById('total-donations').textContent = '$' + data.donations_total.toFixed(2);
+                    document.getElementById('total-jobs').textContent = data.jobs_count;
+                });
+
+            // Load recent alumni and events for dashboard
+            fetch('/api/alumni')
+                .then(response => response.json())
+                .then(data => {
+                    displayRecentAlumni(data.slice(-5));
+                });
+
+            fetch('/api/events')
+                .then(response => response.json())
+                .then(data => {
+                    displayUpcomingEvents(data.slice(0, 5));
+                });
+        }
+
+        function displayRecentAlumni(alumni) {
+            const container = document.getElementById('recent-alumni');
+            if (alumni.length === 0) {
+                container.innerHTML = '<p class="text-muted">No alumni found</p>';
+                return;
+            }
+            container.innerHTML = alumni.map(alum => `
+                <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                    <div>
+                        <strong>${alum.full_name}</strong><br>
+                        <small class="text-muted">${alum.graduation_year}</small>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function displayUpcomingEvents(events) {
+            const container = document.getElementById('upcoming-events');
+            if (events.length === 0) {
+                container.innerHTML = '<p class="text-muted">No events found</p>';
+                return;
+            }
+            container.innerHTML = events.map(event => `
+                <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                    <div>
+                        <strong>${event.event_name}</strong><br>
+                        <small class="text-muted">${event.event_date}</small>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadAlumni() {
+            fetch('/api/alumni')
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.querySelector('#alumni-table tbody');
+                    tbody.innerHTML = data.map(alum => `
+                        <tr>
+                            <td>${alum.full_name}</td>
+                            <td>${alum.email}</td>
+                            <td>${alum.graduation_year}</td>
+                            <td>${alum.current_location || 'N/A'}</td>
+                            <td>${alum.current_employment || 'N/A'}</td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary">Edit</button>
+                                <button class="btn btn-sm btn-outline-danger">Delete</button>
+                            </td>
+                        </tr>
+                    `).join('');
+                });
+        }
+
+        function loadEvents() {
+            fetch('/api/events')
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.querySelector('#events-table tbody');
+                    tbody.innerHTML = data.map(event => `
+                        <tr>
+                            <td>${event.event_name}</td>
+                            <td>${event.event_date}</td>
+                            <td>${event.venue}</td>
+                            <td>0</td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary">Edit</button>
+                                <button class="btn btn-sm btn-outline-danger">Delete</button>
+                            </td>
+                        </tr>
+                    `).join('');
+                });
+        }
+
+        function loadDonations() {
+            fetch('/api/donations')
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.querySelector('#donations-table tbody');
+                    tbody.innerHTML = data.map(donation => `
+                        <tr>
+                            <td>${donation.full_name || 'Unknown'}</td>
+                            <td>$${parseFloat(donation.amount || 0).toFixed(2)}</td>
+                            <td>${donation.purpose || 'N/A'}</td>
+                            <td>${donation.transaction_date || 'N/A'}</td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary">View</button>
+                                <button class="btn btn-sm btn-outline-danger">Delete</button>
+                            </td>
+                        </tr>
+                    `).join('');
+                });
+            
+            // Load alumni for dropdown
+            fetch('/api/alumni')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById('alumni-select');
+                    select.innerHTML = '<option value="">Select Alumni</option>' + 
+                        data.map(alum => `<option value="${alum.alumni_id}">${alum.full_name}</option>`).join('');
+                });
+        }
+
+        function loadFeedback() {
+            fetch('/api/feedback')
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.querySelector('#feedback-table tbody');
+                    tbody.innerHTML = data.map(feedback => `
+                        <tr>
+                            <td>${feedback.full_name || 'Unknown'}</td>
+                            <td>${feedback.feedback_message}</td>
+                            <td>${feedback.date_submitted || 'N/A'}</td>
+                        </tr>
+                    `).join('');
+                });
+        }
+
+        function loadJobs() {
+            fetch('/api/job_postings')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('jobs-content').innerHTML = data.map(job => `
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5>${job.job_title}</h5>
+                                <p>${job.description}</p>
+                                <small class="text-muted">Posted: ${job.posting_date || 'N/A'}</small>
+                                ${job.application_deadline ? `<br><small class="text-muted">Deadline: ${job.application_deadline}</small>` : ''}
+                            </div>
+                        </div>
+                    `).join('');
+                });
+        }
+
+        function generateReport(type) {
+            alert(`Generating ${type} report...`);
+        }
+
+        function addAlumni() {
+            const form = document.getElementById('addAlumniForm');
+            const formData = new FormData(form);
+            
+            // Convert to JSON
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            fetch('/api/alumni', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.message) {
+                    alert('Alumni added successfully!');
+                    form.reset();
+                    bootstrap.Modal.getInstance(document.getElementById('addAlumniModal')).hide();
+                    loadAlumni();
+                    loadDashboardStats(); // Refresh stats
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred');
+            });
+        }
+
+        function addEvent() {
+            const form = document.getElementById('addEventForm');
+            const formData = new FormData(form);
+            
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            fetch('/api/events', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.message) {
+                    alert('Event added successfully!');
+                    form.reset();
+                    bootstrap.Modal.getInstance(document.getElementById('addEventModal')).hide();
+                    loadEvents();
+                    loadDashboardStats(); // Refresh stats
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred');
+            });
+        }
+
+        function addJob() {
+            const form = document.getElementById('addJobForm');
+            const formData = new FormData(form);
+            
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            fetch('/api/job_postings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.message) {
+                    alert('Job posting added successfully!');
+                    form.reset();
+                    bootstrap.Modal.getInstance(document.getElementById('addJobModal')).hide();
+                    loadJobs();
+                    loadDashboardStats(); // Refresh stats
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred');
+            });
+        }
+
+        function addDonation() {
+            const form = document.getElementById('addDonationForm');
+            const formData = new FormData(form);
+            
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            fetch('/api/donations', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.message) {
+                    alert('Donation added successfully!');
+                    form.reset();
+                    bootstrap.Modal.getInstance(document.getElementById('addDonationModal')).hide();
+                    loadDonations();
+                    loadDashboardStats(); // Refresh stats
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred');
+            });
+        }
+
+        // Initialize dashboard
+        loadDashboardStats();
+    </script>
+</body>
+</html>

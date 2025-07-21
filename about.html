@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>About - Alumni Management System</title>
+    <style>
+        .about-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 50px auto;
+            max-width: 1000px;
+            color: #333;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .about-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .about-content {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: #555;
+        }
+        .about-content p {
+            margin-bottom: 20px;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        .feature-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+        .feature-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .feature-description {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        .mission-section {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+        .mission-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+    </style>
+</head>
+<body>
+<div class="background-overlay"></div>
+<header class="navbar">
+    <div class="logo">
+        <img src="{{ url_for('static', filename='images/airuni_logo.png') }}" alt="Alumni Management System Logo" class="logo" />
+        <span>Alumni Management System</span>
+    </div>
+    <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/events">Events</a>
+        <a href="/contact">Contact</a>
+        <a href="/signin" class="cta-button">Sign In</a>
+    </nav>
+</header>
+
+<div class="about-section">
+    <h1><i class="fas fa-info-circle"></i> About Alumni Management System</h1>
+    
+    <div class="about-content">
+        <p>
+            The Alumni Management System is a comprehensive platform designed to strengthen the lifelong bond 
+            between our university and its distinguished graduates. We believe that the relationship between 
+            an institution and its alumni extends far beyond graduation day.
+        </p>
+        <p>
+            Our platform serves as a bridge connecting past, present, and future generations of students, 
+            creating a vibrant ecosystem of collaboration, mentorship, and mutual support. Through innovative 
+            technology and user-friendly interfaces, we make it easier than ever for alumni to stay engaged 
+            with their alma mater and fellow graduates.
+        </p>
+    </div>
+
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="feature-title">Networking</div>
+            <div class="feature-description">
+                Connect with fellow alumni across the globe and build meaningful professional relationships.
+            </div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="feature-title">Events</div>
+            <div class="feature-description">
+                Stay updated on reunions, professional workshops, and exclusive alumni gatherings.
+            </div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-briefcase"></i>
+            </div>
+            <div class="feature-title">Career Opportunities</div>
+            <div class="feature-description">
+                Access exclusive job postings and career development resources from our network.
+            </div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-heart"></i>
+            </div>
+            <div class="feature-title">Give Back</div>
+            <div class="feature-description">
+                Support current students and university initiatives through donations and mentorship.
+            </div>
+        </div>
+    </div>
+
+    <div class="mission-section">
+        <h3><i class="fas fa-bullseye"></i> Our Mission</h3>
+        <p>
+            To foster a lifelong relationship between the university and its alumni, enabling continuous 
+            growth, collaboration, and contribution to the academic community. We strive to create an 
+            environment where knowledge sharing, professional development, and community building thrive 
+            for the benefit of all members.
+        </p>
+    </div>
+</div>
+
+<div class="website-details">
+    <p>
+        Stay connected with your university and fellow alumni. Explore opportunities to network, collaborate, 
+        and contribute to the community. We're here to help you make the most of your alumni experience.
+    </p>
+</div>
+</body>
+</html>

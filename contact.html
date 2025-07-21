@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Contact - Alumni Management System</title>
+    <style>
+        .contact-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 50px auto;
+            max-width: 900px;
+            color: #333;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .contact-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        .contact-info {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+        .contact-info h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        .contact-item i {
+            font-size: 1.2rem;
+            margin-right: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            width: 20px;
+        }
+        .contact-form {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+        .contact-form h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            color: #555;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fff;
+            color: #333;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #999;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.3);
+        }
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: transform 0.2s ease;
+            width: 100%;
+        }
+        .submit-btn:hover {
+            transform: scale(1.02);
+        }
+        .stats-section {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        @media (max-width: 768px) {
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+        .notification {
+            margin: 20px 0;
+            padding: 14px 20px;
+            color: #fff;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            transition: background 0.3s;
+            display: none;
+        }
+        .contact-intro {
+            text-align: center;
+            color: #555;
+            margin-bottom: 0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+<div class="background-overlay"></div>
+<header class="navbar">
+    <div class="logo">
+        <img src="{{ url_for('static', filename='images/airuni_logo.png') }}" alt="Alumni Management System Logo" class="logo" />
+        <span>Alumni Management System</span>
+    </div>
+    <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/events">Events</a>
+        <a href="/contact">Contact</a>
+        <a href="/signin" class="cta-button">Sign In</a>
+    </nav>
+</header>
+
+<div class="contact-section">
+    <h1><i class="fas fa-envelope"></i> Contact Us</h1>
+    <p class="contact-intro">
+        We'd love to hear from you! Whether you have questions, suggestions, or need assistance, 
+        feel free to reach out to us using the contact details below or send us a message.
+    </p>
+    
+    <div class="contact-content">
+        <div class="contact-info">
+            <h3><i class="fas fa-info-circle"></i> Get in Touch</h3>
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <span>alumni@university.edu</span>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-phone"></i>
+                <span>+1 (555) 123-4567</span>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>123 University Avenue<br>Alumni Center, Room 205<br>Your City, State 12345</span>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-clock"></i>
+                <span>Monday - Friday<br>9:00 AM - 5:00 PM</span>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-globe"></i>
+                <span>www.university.edu/alumni</span>
+            </div>
+        </div>
+        
+        <div class="contact-form">
+            <h3><i class="fas fa-paper-plane"></i> Send us a Message</h3>
+            <form id="contact-form">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" placeholder="What is this about?" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="5" placeholder="Your message here..." required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+            </form>
+            <div id="notification" class="notification"></div>
+        </div>
+    </div>
+    
+    <div class="stats-section">
+        <h3><i class="fas fa-chart-bar"></i> Alumni Community Stats</h3>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number" id="total-alumni">0</div>
+                <div class="stat-label">Total Alumni</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="total-events">0</div>
+                <div class="stat-label">Events Hosted</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="total-donations">$0</div>
+                <div class="stat-label">Donations Raised</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="total-jobs">0</div>
+                <div class="stat-label">Job Opportunities</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="website-details">
+    <p>
+        Stay connected with your university and fellow alumni. Explore opportunities to network, collaborate, 
+        and contribute to the community. We're here to help you make the most of your alumni experience.
+    </p>
+</div>
+
+<script>
+// Load stats
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/api/stats')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('total-alumni').textContent = data.alumni_count;
+            document.getElementById('total-events').textContent = data.events_count;
+            document.getElementById('total-donations').textContent = '$' + data.donations_total.toFixed(0);
+            document.getElementById('total-jobs').textContent = data.jobs_count;
+        })
+        .catch(error => {
+            console.error('Error fetching stats:', error);
+        });
+});
+
+// Handle contact form submission
+document.getElementById('contact-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const notification = document.getElementById('notification');
+    notification.style.display = 'block';
+    notification.style.background = '#667eea';
+    notification.textContent = 'Sending message...';
+    
+    // Simulate sending message (you would implement actual email sending here)
+    setTimeout(() => {
+        notification.style.background = '#28a745';
+        notification.textContent = 'Message sent successfully! We\'ll get back to you soon.';
+        document.getElementById('contact-form').reset();
+        
+        setTimeout(() => {
+            notification.style.display = 'none';
+        }, 3000);
+    }, 1500);
+});
+</script>
+</body>
+</html>

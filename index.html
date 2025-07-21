@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Alumni Management System</title>
+</head>
+<body>
+<div class="background-overlay"></div>
+<header class="navbar">
+    <div class="logo">
+        <img src="{{ url_for('static', filename='images/airuni_logo.png') }}" alt="Alumni Management System Logo" class="logo" />
+        <span>Alumni Management System</span>
+    </div>
+    <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/events">Events</a>
+        <a href="/contact">Contact</a>
+        <a href="/signin" class="cta-button">Sign In</a>
+    </nav>
+</header>
+
+<div class="container glass-card">
+    <div class="form-section">
+        <h1><i class="fa-solid fa-user-plus"></i> Create Account</h1>
+        <p>Sign up to join the alumni community.</p>
+        <form id="signup-form">
+            <div class="input-group">
+                <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="input-group">
+                <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
+                <input type="password" id="password" name="password" placeholder="Create a password" required>
+            </div>
+            <div class="options">
+                <label>
+                    <input type="checkbox" name="terms" required> I agree to the <a href="#">terms & conditions</a>
+                </label>
+            </div>
+            <button type="submit" class="sign-up">Sign Up <i class="fa-solid fa-arrow-right"></i></button>
+        </form>
+        <div id="notification" class="notification" style="display:none;"></div>
+        <div class="switch-auth">
+            <p>Already have an account?</p>
+            <a href="/signin" class="sign-in-link">Sign In</a>
+        </div>
+    </div>
+    <div class="image-section">
+        <div class="video-glow">
+            <video autoplay muted loop>
+                <source src="{{ url_for('static', filename='videos/ll.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+</div>
+
+<div class="website-details">
+    <p>
+        Stay connected with your university and fellow alumni. Explore opportunities to network, collaborate, 
+        and contribute to the community. about upcoming events and resources.
+    </p>
+</div>
+
+<script>
+document.getElementById('signup-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const params = new URLSearchParams();
+    for (const pair of formData) {
+        params.append(pair[0], pair[1]);
+    }
+
+    const response = await fetch('/api/signup', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json'
+        },
+        body: params
+    });
+
+    const result = await response.json();
+    const notification = document.getElementById('notification');
+    notification.style.display = 'block';
+
+    if (response.ok) {
+        notification.textContent = 'User created successfully! Redirecting to sign in...';
+        notification.style.background = '#28a745';
+        setTimeout(() => {
+            window.location.href = '/signin';
+        }, 1800);
+    } else {
+        notification.textContent = result.error || 'Sign up failed. Please try again.';
+        notification.style.background = '#dc3545';
+    }
+});
+</script>
+
+<style>
+/* Add this to your main.css or in a <style> tag */
+.notification {
+    margin: 20px auto;
+    max-width: 400px;
+    padding: 14px 20px;
+    color: #fff;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    transition: background 0.3s;
+    z-index: 1000;
+}
+</style>
+</body>
+</html>
